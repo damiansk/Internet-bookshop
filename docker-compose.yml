@@ -1,0 +1,26 @@
+version: '2'
+services:
+  app:
+    image: node:8-alpine
+    volumes:
+      - . :/app:cached
+      - ~/.npm:/root?.npm:cached
+    working_dir: /app
+    command: npm start
+    networks:
+      - internal
+    ports:
+      - 8989:3000
+  mysql:
+    image: mysql:5.6
+    environment:
+      MYSQL_ROOT_PASSWORD: docker
+      MYSQL_DATABASE: bookshop
+      MYSQL_USER: docker
+      MYSQL_PASSWORD: docker
+    networks:
+      - internal
+    ports:
+      - "3306:3306"
+networks:
+  internal:
