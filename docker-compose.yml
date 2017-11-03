@@ -18,6 +18,8 @@ services:
       MYSQL_DATABASE: bookshop
       MYSQL_USER: docker
       MYSQL_PASSWORD: docker
+    volumes:
+      - ./docker/data:/docker-entrypoint-initdb.d
     networks:
       - internal
     ports:
