@@ -1,18 +1,30 @@
 {
-  "name": "bookstore",
-  "version": "0.0.0",
-  "private": true,
-  "scripts": {
-    "start": "nodemon ./bin/www"
-  },
-  "dependencies": {
-    "body-parser": "~1.18.2",
-    "cookie-parser": "~1.4.3",
-    "debug": "~2.6.9",
-    "express": "~4.15.5",
-    "hbs": "~4.0.1",
-    "morgan": "~1.9.0",
-    "nodemon": "^1.12.1",
-    "serve-favicon": "~2.4.5"
-  }
+	"name": "bookstore",
+	"version": "0.0.1",
+	"description": "This repo contains project for the \"Internet Database\" laboratories",
+	"private": true,
+	"scripts": {
+		"start": "nodemon ./bin/www"
+	},
+	"dependencies": {
+		"body-parser": "~1.18.2",
+		"cookie-parser": "~1.4.3",
+		"debug": "~2.6.9",
+		"express": "~4.15.5",
+		"hbs": "~4.0.1",
+		"morgan": "~1.9.0",
+		"nodemon": "^1.12.1",
+		"serve-favicon": "~2.4.5"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/damiansk/Internet-bookshop.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/damiansk/Internet-bookshop/issues"
+	},
+	"homepage": "https://github.com/damiansk/Internet-bookshop#readme"
 }
