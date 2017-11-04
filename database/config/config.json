@@ -1,0 +1,9 @@
+{
+  "development": {
+    "username": "docker",
+    "password": "docker",
+    "database": "bookshop",
+    "host": "mysql",
+    "dialect": "mysql"
+  }
+}
