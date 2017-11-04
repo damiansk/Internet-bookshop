@@ -1,9 +1,12 @@
 {
-  "development": {
-    "username": "docker",
-    "password": "docker",
-    "database": "bookshop",
-    "host": "mysql",
-    "dialect": "mysql"
-  }
+	"development": {
+		"username": "docker",
+		"password": "docker",
+		"database": "bookshop",
+		"host": "mysql",
+		"dialect": "mysql",
+		"define": {
+			"timestamps": false
+		}
+	}
 }
