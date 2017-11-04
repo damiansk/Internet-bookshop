@@ -11,7 +11,7 @@ const index = require('./routes/index');
 const app = express();
 
 // view engine setup
-app.engine('.hbs', expressHbs);
+app.engine('.hbs', expressHbs({ defaultLayout: 'layout', extname: '.hbs' }));
 app.set('view engine', 'hbs');
 
 // uncomment after placing your favicon in /public
