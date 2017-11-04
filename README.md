@@ -14,5 +14,5 @@ What things you need to install
 * Without Docker (__http://localhost:3000__):
     * `npm install` (first run)
     * `npm start`
-### LICENSE ###
+## LICENSE ##
 This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/damiansk/Internet-bookshop/blob/master/LICENSE) file for details
