@@ -35,6 +35,11 @@ Object.keys(db).forEach(modelName => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
+db.Book.hasMany(db.AuthorBook, {foreignKey: 'ISBN', constraints: false});
+db.Author.hasMany(db.AuthorBook, {foreignKey: 'idAuthor', constraints: false});
+db.AuthorBook.belongsTo(db.Book, {foreignKey: 'ISBN'});
+db.AuthorBook.belongsTo(db.Author, {foreignKey: 'idAuthor'});
+
 db.Category.hasMany(db.Book, {foreignKey: 'idCategory', constraints: false});
 db.Publisher.hasMany(db.Book, {foreignKey: 'idPublisher', constraints: false});
 db.Book.belongsTo(db.Category, {foreignKey: 'idCategory'});

@@ -62,8 +62,16 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER(10).UNSIGNED,
       allowNull: false,
       defaultValue: '0'
+    },
+    Thumbnail: {
+      type: DataTypes.STRING(100),
+      allowNull: false
     }
   }, {
+    dialectOptions: {
+      charset: 'utf8',
+      collate: 'utf8_unicode_ci',
+    },
     tableName: 'Book'
   });
 };
