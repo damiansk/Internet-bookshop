@@ -3,7 +3,7 @@ services:
   app:
     image: node:8-alpine
     volumes:
-      - . :/app:cached
+      - .:/app:cached
       - ~/.npm:/root?.npm:cached
     working_dir: /app
     command: npm start
