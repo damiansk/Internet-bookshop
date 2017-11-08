@@ -5,6 +5,7 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const expressHbs = require('express-handlebars');
+const session = require('express-session');
 
 const index = require('./routes/index');
 
@@ -20,6 +21,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session({secret: '504323204587', resave: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);

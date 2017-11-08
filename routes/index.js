@@ -1,6 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const models = require('../database/models');
+const csrf = require('csurf');
+
+const csrfProtection = csrf();
+
+router.use(csrfProtection);
 
 /* GET home page. */
 router.get('/', (req, res, next) => {
@@ -22,9 +27,9 @@ router.get('/', (req, res, next) => {
     .then(books => {
         const mappedBooks = books.map(({ISBN, Author, Book}) => ({
                 title: Book.title,
-                description: Book.description, 
-                sellingPrice: Book.sellingPrice, 
-                year: Book.year, 
+                description: Book.description,
+                sellingPrice: Book.sellingPrice,
+                year: Book.year,
                 thumbnail: Book.Thumbnail,
                 ISBN,
                 author: `${Author.surName} ${Author.firstName}`,
@@ -44,6 +49,14 @@ router.get('/', (req, res, next) => {
         res.render('shop/index', {title: 'Bookstore'});
         console.log(`Something went wrong - ${err}`);
     });
+});
+
+router.get('/user/signup', (req, res, next) => {
+    res.render('user/signup', {csrfToken: req.csrfToken()});
+});
+
+router.post('/user/signup', (req, res, next) => {
+    res.redirect('/');
 });
 
 module.exports = router;
