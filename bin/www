@@ -7,6 +7,7 @@
 const app = require('../app');
 const debug = require('debug')('bookstore:server');
 const http = require('http');
+const models = require('../database/models');
 
 /**
  * Get port from environment and store in Express.
@@ -21,13 +22,25 @@ app.set('port', port);
 
 const server = http.createServer(app);
 
-/**
- * Listen on provided port, on all network interfaces.
- */
+const startServer = () =>
+    models.sequelize
+    .sync()
+    .then(() => {
+        /**
+         * Listen on provided port, on all network interfaces.
+         */
+        server.listen(port);
+        server.on('error', onError);
+        server.on('listening', onListening);
+        console.log(`Server connected and started...`);
+    })
+    .catch(err => {
+        console.log(`Unable to connect to the database - ${err}`);
+        console.log('Trying connect again in 7 sec...');
+        setTimeout(startServer, 7000);
+    });
 
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+startServer();
 
 /**
  * Normalize a port into a number, string, or false.
