@@ -29,25 +29,13 @@ passport.use('local.signup', new LocalStrategy({
                 message: 'That email is already taken'
             });
         } else {
-            const data = {
+            User.create({
                 email,
                 password: generateHash(password),
                 idAddressData: 1,
                 idInvoiceData: 1,
                 idDeliveryData: 1
-            };
-            // {
-            //     email: email,
-            //
-            //     password: userPassword,
-            //
-            //     firstname: req.body.firstname,
-            //
-            //     lastname: req.body.lastname
-            //
-            // };
-            
-            User.create(data).then((newUser, created) => {
+            }).then((newUser, created) => {
                 if (!newUser) {
                     return done(null, false);
                 }
@@ -55,70 +43,7 @@ passport.use('local.signup', new LocalStrategy({
                 if (newUser) {
                     return done(null, newUser);
                 }
-                
             });
         }
-        
     });
 }));
-
-
-// passport.use('local-signup', new LocalStrategy(
-//     {
-//
-//         usernameField: 'email',
-//
-//         passwordField: 'password',
-//
-//         passReqToCallback: true // allows us to pass back the entire request to the callback
-//
-//     },
-    //
-    //
-    // function (req, email, password, done) {
-    //
-    //     const generateHash = password => bCrypt.hashSync(password, bCrypt.genSaltSync(8), null);
-    //
-    //     User.findOne({
-    //         where: { email }
-    //     }).then(user => {
-    //
-    //         if (user) {
-    //             return done(null, false, {
-    //                 message: 'That email is already taken'
-    //             });
-    //         } else {
-    //             const data = {
-    //                 email,
-    //                 password: generateHash(password),
-    //                 idAddressData: 1,
-    //                 idInvoiceData: 1,
-    //                 idDeliveryData: 1
-    //             };
-    //             // {
-    //             //     email: email,
-    //             //
-    //             //     password: userPassword,
-    //             //
-    //             //     firstname: req.body.firstname,
-    //             //
-    //             //     lastname: req.body.lastname
-    //             //
-    //             // };
-    //
-    //             User.create(data).then((newUser, created) => {
-    //                 if (!newUser) {
-    //                     return done(null, false);
-    //                 }
-    //
-    //                 if (newUser) {
-    //                     return done(null, newUser);
-    //                 }
-    //
-    //             });
-    //         }
-    //
-    //     });
-    //
-    // }
-// ));
