@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const models = require('../database/models');
 const csrf = require('csurf');
+const passport = require('passport');
 
 const csrfProtection = csrf();
 
@@ -52,11 +53,16 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/user/signup', (req, res, next) => {
-    res.render('user/signup', {csrfToken: req.csrfToken()});
+    const messages = req.flash('error');
+    res.render('user/signup', {csrfToken: req.csrfToken(),
+                                messages,
+                                hasErrors: messages.length > 0});
 });
 
-router.post('/user/signup', (req, res, next) => {
-    res.redirect('/');
-});
+router.post('/user/signup', passport.authenticate('local.signup', {
+    successRedirect: '/',
+    failureRedirect: '/user/signup',
+    failureFlash: true
+}));
 
 module.exports = router;
