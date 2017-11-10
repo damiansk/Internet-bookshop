@@ -8,8 +8,8 @@ const csrfProtection = csrf();
 
 router.use(csrfProtection);
 
-/* GET home page. */
-router.get('/', (req, res, next) => {
+
+router.get('/', (req, res) => {
     const { Book, Publisher, Category, AuthorBook, Author } = models;
     AuthorBook.findAll({
         attributes: ['ISBN'],
@@ -52,11 +52,13 @@ router.get('/', (req, res, next) => {
     });
 });
 
-router.get('/user/signup', (req, res, next) => {
+router.get('/user/signup', (req, res,) => {
     const messages = req.flash('error');
-    res.render('user/signup', {csrfToken: req.csrfToken(),
-                                messages,
-                                hasErrors: messages.length > 0});
+    res.render('user/signup', {
+        csrfToken: req.csrfToken(),
+        hasErrors: messages.length > 0,
+        messages
+    });
 });
 
 router.post('/user/signup', passport.authenticate('local.signup', {
@@ -65,8 +67,23 @@ router.post('/user/signup', passport.authenticate('local.signup', {
     failureFlash: true
 }));
 
+router.get('/user/signin', (req, res) => {
+    const messages = req.flash('error');
+    res.render('user/signin', {
+        csrfToken: req.csrfToken(),
+        hasErrors: messages.length > 0,
+        messages
+    });
+});
+
+router.post('/user/signin', passport.authenticate('local.signin', {
+    successRedirect: '/user/profile',
+    failureRedirect: '/user/signin',
+    failureFlash: true
+}));
+
 router.get('/user/profile', (req, res) => {
-   res.render('user/profile');
+    res.render('user/profile');
 });
 
 module.exports = router;
