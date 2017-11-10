@@ -8,6 +8,19 @@ const csrfProtection = csrf();
 router.use(csrfProtection);
 
 
+router.get('/profile', isLoggedIn, (req, res) => {
+    res.render('user/profile');
+});
+
+router.get('/logout', isLoggedIn, (req, res) => {
+    req.logout();
+    res.redirect('/');
+});
+
+router.use('/', isNotLoggedIn, (req, res, next) => {
+   next();
+});
+
 router.get('/signup', (req, res,) => {
     const messages = req.flash('error');
     res.render('user/signup', {
@@ -38,8 +51,20 @@ router.post('/signin', passport.authenticate('local.signin', {
     failureFlash: true
 }));
 
-router.get('/profile', (req, res) => {
-    res.render('user/profile');
-});
+function isLoggedIn(req, res, next) {
+   if(req.isAuthenticated()) {
+       return next();
+   } else {
+       res.redirect('/');
+   }
+}
+
+function isNotLoggedIn(req, res, next) {
+    if(!req.isAuthenticated()) {
+        return next();
+    } else {
+        res.redirect('/');
+    }
+}
 
 module.exports = router;
