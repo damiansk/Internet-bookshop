@@ -1,12 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const models = require('../database/models');
-const csrf = require('csurf');
-const passport = require('passport');
-
-const csrfProtection = csrf();
-
-router.use(csrfProtection);
 
 
 router.get('/', (req, res) => {
@@ -50,40 +44,6 @@ router.get('/', (req, res) => {
         res.render('shop/index', {title: 'Bookstore'});
         console.log(`Something went wrong - ${err}`);
     });
-});
-
-router.get('/user/signup', (req, res,) => {
-    const messages = req.flash('error');
-    res.render('user/signup', {
-        csrfToken: req.csrfToken(),
-        hasErrors: messages.length > 0,
-        messages
-    });
-});
-
-router.post('/user/signup', passport.authenticate('local.signup', {
-    successRedirect: '/user/profile',
-    failureRedirect: '/user/signup',
-    failureFlash: true
-}));
-
-router.get('/user/signin', (req, res) => {
-    const messages = req.flash('error');
-    res.render('user/signin', {
-        csrfToken: req.csrfToken(),
-        hasErrors: messages.length > 0,
-        messages
-    });
-});
-
-router.post('/user/signin', passport.authenticate('local.signin', {
-    successRedirect: '/user/profile',
-    failureRedirect: '/user/signin',
-    failureFlash: true
-}));
-
-router.get('/user/profile', (req, res) => {
-    res.render('user/profile');
 });
 
 module.exports = router;
