@@ -36,6 +36,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
     res.locals.login = req.isAuthenticated();
+    res.locals.session = req.session;
     next();
 });
 
