@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const models = require('../database/models');
 
+const Cart = require('../models/cart');
+const Book = require('../database/models').Book;
 
 router.get('/', (req, res) => {
     const { Book, Publisher, Category, AuthorBook, Author } = models;
@@ -11,7 +13,7 @@ router.get('/', (req, res) => {
             { model: Author, attributes: ['firstName', 'surName'] },
             {
                 model: Book,
-                attributes: ['title', 'description', 'sellingPrice', 'year', 'Thumbnail'],
+                attributes: ['ISBN', 'title', 'description', 'sellingPrice', 'year', 'Thumbnail'],
                 include: [
                     { model: Publisher, attributes: ['name'] },
                     { model: Category, attributes: ['name'] }
@@ -44,6 +46,19 @@ router.get('/', (req, res) => {
         res.render('shop/index', {title: 'Bookstore'});
         console.log(`Something went wrong - ${err}`);
     });
+});
+
+router.get('/add-to-cart/:id', (req, res) => {
+    const productId = req.params.id;
+    const cart = new Cart(req.session.cart ? req.session.cart.items : {});
+    
+    Book.findById(productId)
+    .then(book => {
+        cart.add(book, book.ISBN);
+        req.session.cart = cart;
+        res.redirect('/');
+    })
+    .catch(err => res.redirect('/'));
 });
 
 module.exports = router;
