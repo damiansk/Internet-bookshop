@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 07, 2017 at 02:57 PM
+-- Generation Time: Nov 09, 2017 at 09:10 AM
 -- Server version: 5.7.18-14-log
 -- PHP Version: 7.1.7
 
@@ -266,7 +266,7 @@ INSERT INTO `Publisher` (`idPublisher`, `name`, `idAddressData`, `email`) VALUES
 
 CREATE TABLE IF NOT EXISTS `User` (
   `email` varchar(100) NOT NULL,
-  `password` varchar(50) NOT NULL,
+  `password` varchar(100) NOT NULL,
   `idAddressData` int(10) unsigned NOT NULL,
   `idInvoiceData` int(10) unsigned NOT NULL,
   `idDeliveryData` int(10) unsigned NOT NULL,

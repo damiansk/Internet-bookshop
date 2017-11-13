@@ -5,10 +5,17 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const expressHbs = require('express-handlebars');
+const session = require('express-session');
+const passport = require('passport');
+const flash = require('connect-flash');
+const validator = require('express-validator');
 
 const index = require('./routes/index');
+const userRoutes = require('./routes/user');
 
 const app = express();
+
+require('./config/passport');
 
 // view engine setup
 app.engine('.hbs', expressHbs({ defaultLayout: 'layout', extname: '.hbs' }));

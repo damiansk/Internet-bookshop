@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const models = require('../database/models');
 
-/* GET home page. */
-router.get('/', (req, res, next) => {
+
+router.get('/', (req, res) => {
     const { Book, Publisher, Category, AuthorBook, Author } = models;
     AuthorBook.findAll({
         attributes: ['ISBN'],
@@ -22,9 +22,9 @@ router.get('/', (req, res, next) => {
     .then(books => {
         const mappedBooks = books.map(({ISBN, Author, Book}) => ({
                 title: Book.title,
-                description: Book.description, 
-                sellingPrice: Book.sellingPrice, 
-                year: Book.year, 
+                description: Book.description,
+                sellingPrice: Book.sellingPrice,
+                year: Book.year,
                 thumbnail: Book.Thumbnail,
                 ISBN,
                 author: `${Author.surName} ${Author.firstName}`,
