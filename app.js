@@ -9,6 +9,10 @@ const session = require('express-session');
 const passport = require('passport');
 const flash = require('connect-flash');
 const validator = require('express-validator');
+const models = require('./database/models');
+
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
+
 
 const index = require('./routes/index');
 const userRoutes = require('./routes/user');
@@ -28,7 +32,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(validator());
 app.use(cookieParser());
-app.use(session({secret: '504323204587', resave: false}));
+app.use(session({
+    secret: '504323204587',
+    resave: false,
+    saveUninitialized: false,
+    store: new SequelizeStore({db: models.sequelize}),
+    cookies: {maxAge: 180*60 * 1000}
+}));
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
@@ -36,6 +46,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
     res.locals.login = req.isAuthenticated();
+    res.locals.session = req.session;
     next();
 });
 
