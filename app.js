@@ -11,6 +11,7 @@ const flash = require('connect-flash');
 const validator = require('express-validator');
 const models = require('./database/models');
 
+
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 

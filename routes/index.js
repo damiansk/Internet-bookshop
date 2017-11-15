@@ -4,6 +4,8 @@ const models = require('../database/models');
 
 const Cart = require('../models/cart');
 const Book = require('../database/models').Book;
+const Order = require('../database/models').Order;
+const BookInOrder = require('../database/models').BookInOrder;
 
 router.get('/', (req, res) => {
     const successMsg = req.flash('success')[0];
@@ -100,7 +102,35 @@ router.post('/checkout', function(req, res, next) {
             req.flash('error', err.message);
             return res.redirect('/checkout');
         }
+        var today = new Date();
+        var day = today.getDate();
+        var month = today.getMonth() + 1;
+        var year = today.getYear();
 
+        if(day < 10){
+            day = '0' + day;
+        }
+        if(month < 10) {
+            month = '0' + month;
+        }
+
+        today = year + '-' + month + '-' + day;
+        Order.create({
+            idUser: req.session.passport.user,
+            orderDate: today,
+            totalPrice: cart.totalPrice,
+            status: 'paid',
+            comments: req.body.comment || null
+
+        }).then((newOrder) => {
+            for(const id in cart.items){
+                BookInOrder.create({
+                    idOrder: newOrder.getDataValue('idOrder'),
+                    ISBN: cart.items[id].item.ISBN,
+                    quantity: cart.items[id].qty
+                }).then((newBookInOrder)=>{});
+        }
+        });
         req.flash('success', 'Successfully bought product!');
         req.session.cart = null;
         res.redirect('/');
