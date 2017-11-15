@@ -6,6 +6,8 @@ const Cart = require('../models/cart');
 const Book = require('../database/models').Book;
 
 router.get('/', (req, res) => {
+    const successMsg = req.flash('success')[0];
+
     const { Book, Publisher, Category, AuthorBook, Author } = models;
     AuthorBook.findAll({
         attributes: ['ISBN'],
@@ -40,7 +42,7 @@ router.get('/', (req, res) => {
             bookChunks.push(mappedBooks.slice(i, i + chunkSize));
         }
         
-        res.render('shop/index', {title: 'Bookstore', bookChunks});
+        res.render('shop/index', {title: 'Bookstore', bookChunks, successMsg: successMsg, noMessages: !successMsg});
     })
     .catch(err => {
         res.render('shop/index', {title: 'Bookstore'});
@@ -67,6 +69,43 @@ router.get('/shopping-cart', function (req, res, next) {
     }
     const cart = new Cart(req.session.cart.items);
     res.render('shop/shopping-cart', {products: cart.generateArray(), totalPrice: cart.totalPrice});
+});
+
+router.get('/checkout', function (req, res, next) {
+    if(!req.session.cart){
+        return res.redirect('shop/shopping-cart');
+    }
+    const cart = new Cart(req.session.cart.items);
+    const errMsg = req.flash('error')[0];
+    res.render('shop/checkout',{total: cart.totalPrice, errMsg: errMsg, noError: !errMsg});
+});
+
+router.post('/checkout', function(req, res, next) {
+    if (!req.session.cart) {
+        return res.redirect('/shopping-cart');
+    }
+    var cart = new Cart(req.session.cart.items);
+
+    var stripe = require("stripe")(
+        "sk_test_5HkmV6RTQ3qFxx9rvfTwRYNI"
+    );
+
+    stripe.charges.create({
+        amount: cart.totalPrice * 100,
+        currency: "usd",
+        source: req.body.stripeToken, // obtained with Stripe.js
+        description: "Test Charge"
+    }, function(err, charge) {
+        if (err) {
+            req.flash('error', err.message);
+            return res.redirect('/checkout');
+        }
+
+        req.flash('success', 'Successfully bought product!');
+        req.session.cart = null;
+        res.redirect('/');
+
+    });
 });
 
 module.exports = router;
