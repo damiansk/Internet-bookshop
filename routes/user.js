@@ -2,13 +2,30 @@ const express = require('express');
 const router = express.Router();
 const csrf = require('csurf');
 const passport = require('passport');
+const models = require('../database/models');
+const Cart = require("../models/cart");
 
 const csrfProtection = csrf();
 
 router.use(csrfProtection);
 
+const {Order, Book, BookInOrder} = models;
 
 router.get('/profile', isLoggedIn, (req, res) => {
+    Order.findAll({
+        where: {idUser: req.session.passport.user},
+        attributes: ['idOrder'],
+        include: [{
+            model: BookInOrder,
+            attributes: ['ISBN', 'quantity'],
+        }]
+
+    }).then(books =>{
+        const cart = new Cart({});
+
+        console.log(books.getDataValue('BookInOrder'));
+    });
+
     res.render('user/profile');
 });
 

@@ -21,6 +21,23 @@ function Cart(initItems) {
         this.totalQty++;
         this.totalPrice += storedItem.price;
     };
+
+    this.reduceByOne = function (id) {
+      this.items[id].qty--;
+      this.items[id].price -= this.items[id].item.sellingPrice;
+      this.totalQty--;
+      this.totalPrice -= this.items[id].item.sellingPrice;
+
+      if(this.items[id].qty <= 0){
+          delete this.items[id];
+      }
+    };
+
+    this.removeItem = function (id) {
+        this.totalQty-= this.items[id].qty;
+        this.totalPrice -= this.items[id].sellingPrice;
+        delete this.items[id];
+    };
     
     this.generateArray = function () {
         const arr = [];
