@@ -19,7 +19,7 @@ function Cart(initItems) {
         storedItem.qty++;
         storedItem.price = storedItem.item.sellingPrice * storedItem.qty;
         this.totalQty++;
-        this.totalPrice += storedItem.price;
+        this.totalPrice += storedItem.item.sellingPrice;
     };
 
     this.reduceByOne = function (id) {

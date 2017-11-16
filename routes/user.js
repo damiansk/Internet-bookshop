@@ -18,15 +18,36 @@ router.get('/profile', isLoggedIn, (req, res) => {
         include: [{
             model: BookInOrder,
             attributes: ['ISBN', 'quantity'],
+            include: [{
+                model: Book
+            }]
         }]
 
-    }).then(books =>{
-        const cart = new Cart({});
-
-        console.log(books.getDataValue('BookInOrder'));
+    }).then(orders =>{
+        var cart;
+        const items = [];
+        const carts = [];
+        for(const i in orders){
+            cart = new Cart({});
+            console.log(cart.totalPrice);
+            const bookInOrder = orders[i].getDataValue('BookInOrders');
+            for(const k in bookInOrder ){
+                const qty = bookInOrder[k].getDataValue('quantity');
+                const isbn = bookInOrder[k].getDataValue('ISBN');
+                const book = bookInOrder[k].getDataValue('Book');
+                for(let bookQTY=0; bookQTY < qty; bookQTY++){
+                    cart.add(book, isbn)
+                    console.log(book.title);
+                    console.log(cart.totalPrice);
+             }
+           }
+            carts.push(cart);
+            items.push(cart.generateArray());
+        }
+        res.render('user/profile',{orders: carts,items: items});
     });
 
-    res.render('user/profile');
+
 });
 
 router.get('/logout', isLoggedIn, (req, res) => {
