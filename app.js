@@ -11,6 +11,7 @@ const flash = require('connect-flash');
 const validator = require('express-validator');
 const models = require('./database/models');
 
+
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 
@@ -37,7 +38,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     store: new SequelizeStore({db: models.sequelize}),
-    cookies: {maxAge: 180*60 * 1000}
+    cookies: {maxAge: 180 * 60 * 1000}
 }));
 app.use(flash());
 app.use(passport.initialize());

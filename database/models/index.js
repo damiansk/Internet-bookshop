@@ -45,4 +45,9 @@ db.Publisher.hasMany(db.Book, {foreignKey: 'idPublisher', constraints: false});
 db.Book.belongsTo(db.Category, {foreignKey: 'idCategory'});
 db.Book.belongsTo(db.Publisher, {foreignKey: 'idPublisher'});
 
+db.Order.hasMany(db.BookInOrder,{foreignKey: 'idOrder', constraints: false});
+db.Book.hasMany(db.BookInOrder, {foreignKey: 'ISBN', constraints: false});
+db.BookInOrder.belongsTo(db.Order,{foreignKey: 'idOrder'});
+db.BookInOrder.belongsTo(db.Book, {foreignKey: 'ISBN'});
+
 module.exports = db;
