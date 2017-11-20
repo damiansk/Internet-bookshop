@@ -48,50 +48,43 @@ passport.use('local.signup', new LocalStrategy({
                 message: 'That email is already taken'
             });
         } else {
-            var firstNameText = req.body.firstName;
-            var surnameText = req.body.surname;
-            var nipNumberText = req.body.nipNumber;
-            var phoneNumberText = req.body.phoneNumber;
-            var streetText = req.body.street;
-            var houseNumberText = req.body.houseNumber;
-            var apartmentNumberText = req.body.apartmentNumber;
-            var postalCodeText = req.body.postalCode;
-            var cityText = req.body.city;
+            let {
+                firstName,
+                surname,
+                nipNumber,
+                phoneNumber,
+                street,
+                houseNumber,
+                apartmentNumber,
+                postalCode,
+                city
+            } = req.body;
 
             if(req.checkBody('nipNumber').isEmpty()){
-                nipNumberText = null;
+                nipNumber = null;
             }
             if(req.checkBody('apartmentNumber').isEmpty()){
-                apartmentNumberText = null;
+                apartmentNumber = null;
             }
             AddressData.create({
                 name: 'name',
-                fisrtName: firstNameText,
-                surname: surnameText,
-                nipNumber: nipNumberText,
-                phoneNumber: phoneNumberText,
-                street: streetText,
-                houseNumber: houseNumberText,
-                apartmentNumber: apartmentNumberText,
-                postalCode: postalCodeText,
-                city: cityText
-            }).then((newAddressData) => {
-                User.create({
+                fisrtName: firstName,
+                surname,
+                nipNumber,
+                phoneNumber,
+                street,
+                houseNumber,
+                apartmentNumber,
+                postalCode,
+                city
+            }).then(({idAddressData}) => User.create({
                 email,
                 password: generateHash(password),
                 //TODO create empty address for new users or update signup form with new fields for address
-                idAddressData: newAddressData.getDataValue('idAddressData'),
-                idInvoiceData: newAddressData.getDataValue('idAddressData'),
-                idDeliveryData: newAddressData.getDataValue('idAddressData')
-            }).then((newUser) => {
-                return newUser ?
-                    done(null, newUser) :
-                    done(null, false);
-});
-            });
-
-
-
+                idAddressData,
+                idInvoiceData: idAddressData,
+                idDeliveryData: idAddressData
+            })).then((newUser) => done(null, newUser ? newUser : false));
         }
     }).catch(err => done(null, false, {
         message: 'Something went wrong'
