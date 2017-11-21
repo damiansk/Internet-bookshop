@@ -67,7 +67,7 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/search/:category', (req, res) => {
+router.get('/search', (req, res) => {
   const { Book, Publisher, Category, AuthorBook, Author } = models;
   AuthorBook.findAll({
       attributes: ['ISBN'],
@@ -83,7 +83,7 @@ router.get('/search/:category', (req, res) => {
                     attributes: ['name'],
                     where: {
                       'name': {
-                        $like: '%' + (req.params.category || '') + '%'
+                        $like: '%' + (req.param('category') || '') + '%'
                       }
                     }
                   }

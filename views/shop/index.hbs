@@ -10,7 +10,7 @@
       <div class="collapse in" id="categories-list">
         <ul class="nav nav-sidebar">
           {{# each categories }}
-          <li><a href="/search/{{this.name}}">{{this.name}}</a></li>
+          <li><a href="/search?category={{this.name}}">{{this.name}}</a></li>
           {{/each}}
         </ul>
       </div>
