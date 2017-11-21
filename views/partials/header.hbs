@@ -35,6 +35,10 @@
                     </ul>
                 </li>
             </ul>
+            <form class="navbar-form navbar-right" action="/search" method="get">
+                <input class="form-control" placeholder="Search..." type="text" name="term" id="term">
+                <input type="hidden" name="_csrf" value="{{csrfToken}}">
+            </form>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
