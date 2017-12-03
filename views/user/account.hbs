@@ -1,0 +1,165 @@
+<div class="row">
+    <div class="col-sm-6 col-md-4 col-md-offset-4 col-sm-offset-3">
+        <div id="success" class="alert alert-success" {{#if noMessages}}hidden{{/if}}>
+            {{successMsg}}
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-3 col-md-2 sidebar" >
+        <h2 class="bg-grey">
+            Menu
+        </h2>
+        <div>
+            <ul class="nav nav-sidebar">
+                <li><a href="/user/profile">Orders</a></li>
+                <li><a href="/user/account">Account</a> </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-8 col-md-offset-2">
+        <form action="/user/account" method="post">
+        <h1>User Profile</h1>
+        <hr>
+        <h2 class="bg-grey"
+            data-toggle="collapse"
+            data-target="#mainAddress"
+            aria-expanded="true">
+            Main address</h2>
+            <div class="collapse in" id="mainAddress">
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="text" id="email" value={{user.email}} name="email" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="firstName">First name</label>
+                    <input type="text" id="name" value={{addressData.fisrtName}} name="firstName" class="form-control">
+                 </div>
+                <div class="form-group">
+                    <label for="surname">Surname</label>
+                    <input type="text" id="surname" name="surname" value={{addressData.surname}} class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="phoneNumber">Phone number</label>
+                    <input type="text" id="phoneNumber" name="phoneNumber" value={{addressData.phoneNumber}} class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="nipNumber">Nip</label>
+                    <input type="text" id="nipNumber" name="nipNumber" {{#if addressData.nipNumber}} value={{addressData.nipNumber}} {{/if}} class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="street">Street</label>
+                    <input type="text" id="street" name="street" value={{addressData.street}} class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="houseNumber">House number</label>
+                    <input type="text" id="houseNumber" name="houseNumber" value={{addressData.houseNumber}} class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="apartmentNumber">Apartments number</label>
+                    <input type="text" id="apartmentNumber" name="apartmentNumber" {{#if addressData.apartmentNumber}} value={{addressData.apartmentNumber}} {{/if}} class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="postalColde">Postal code</label>
+                    <input type="text" id="postalColde" name="postalCode" value={{addressData.postalCode}} class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="city">City</label>
+                    <input type="text" id="city" name="city" value={{addressData.city}} class="form-control">
+                </div>
+            </div>
+
+            <h2 class="bg-grey"
+                data-toggle="collapse"
+                data-target="#deliveryAddress"
+                aria-expanded="false"
+                aria-haspopup="true">
+                Delivery address</h2>
+                <div class="collapse" id="deliveryAddress">
+                    <div class="form-group">
+                        <label for="firstNameDelivery">First name</label>
+                        <input type="text" id="firstNameDelivery" value={{deliveryData.fisrtName}} name="firstNameDelivery" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="surnameDelivery">Surname</label>
+                        <input type="text" id="surnameDelivery" name="surnameDelivery" value={{deliveryData.surname}} class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="phoneNumberDelivery">Phone number</label>
+                        <input type="text" id="phoneNumberDelivery" name="phoneNumberDelivery" value={{deliveryData.phoneNumber}} class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="nipNumberDelivery">Nip</label>
+                        <input type="text" id="nipNumber"Delivery name="nipNumberDelivery" {{#if deliveryData.nipNumber}} value={{deliveryData.nipNumber}} {{/if}} class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="streetDelivery">Street</label>
+                        <input type="text" id="streetDelivery" name="streetDelivery" value={{deliveryData.street}} class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="houseNumberDelivery">House number</label>
+                        <input type="text" id="houseNumberDelivery" name="houseNumberDelivery" value={{deliveryData.houseNumber}} class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="apartmentNumberDelivery">Apartments number</label>
+                        <input type="text" id="apartmentNumberDelivery" name="apartmentNumberDelivery" {{#if deliveryData.apartmentNumber}} value={{deliveryData.apartmentNumber}} {{/if}} class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="postalColdeDelivery">Postal code</label>
+                        <input type="text" id="postalColdeDelivery" name="postalCodeDelivery" value={{deliveryData.postalCode}} class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="cityDelivery">City</label>
+                        <input type="text" id="cityDelivery" name="cityDelivery" value={{deliveryData.city}} class="form-control">
+                    </div>
+                </div>
+
+                <h2 class="bg-grey"
+                    data-toggle="collapse"
+                    data-target="#invoiceAddress"
+                    aria-expanded="true">
+                    Invoice address</h2>
+                    <div class="collapse" id="invoiceAddress">
+                        <div class="form-group">
+                            <label for="firstNameInvoice">First name</label>
+                            <input type="text" id="nameInvoice" value={{invoiceData.fisrtName}} name="firstNameInvoice" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="surnameInvoice">Surname</label>
+                            <input type="text" id="surnameInvoice" name="surnameInvoice" value={{invoiceData.surname}} class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="phoneNumberInvoice">Phone number</label>
+                            <input type="text" id="phoneNumberInvoice" name="phoneNumberInvoice" value={{invoiceData.phoneNumber}} class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="nipNumberInvoice">Nip</label>
+                            <input type="text" id="nipNumber"Invoice name="nipNumberInvoice" {{#if invoiceData.nipNumber}} value={{invoiceData.nipNumber}} {{/if}} class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="streetInvoice">Street</label>
+                            <input type="text" id="streetInvoice" name="streetInvoice" value={{invoiceData.street}} class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="houseNumberInvoice">House number</label>
+                            <input type="text" id="houseNumberInvoice" name="houseNumberInvoice" value={{invoiceData.houseNumber}} class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="apartmentNumberInvoice">Apartments number</label>
+                            <input type="text" id="apartmentNumberInvoice" name="apartmentNumberInvoice" {{#if invoiceData.apartmentNumber}} value={{invoiceData.apartmentNumber}} {{/if}} class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="postalColdeInvoice">Postal code</label>
+                            <input type="text" id="postalColdeInvoice" name="postalCodeInvoice" value={{invoiceData.postalCode}} class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="cityInvoice">City</label>
+                            <input type="text" id="cityInvoice" name="cityInvoice" value={{invoiceData.city}} class="form-control">
+                        </div>
+                    </div>
+                     <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                     <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+</div>

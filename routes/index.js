@@ -8,9 +8,9 @@ const Book = require('../database/models').Book;
 const Order = require('../database/models').Order;
 const BookInOrder = require('../database/models').BookInOrder;
 
-const csrfProtection = csrf();
+//const csrfProtection = csrf();
 
-router.use(csrfProtection);
+//router.use(csrfProtection);
 let categories = [];
 
 models.Category
@@ -54,24 +54,16 @@ router.get('/', (req, res) => {
             bookChunks.push(mappedBooks.slice(i, i + chunkSize));
         }
         
-        res.render('shop/index', {
-          csrfToken: req.csrfToken(),
-          title: 'Bookstore',
-          bookChunks,
-          categories
-        });
+        res.render('shop/index', {title: 'Bookstore', bookChunks, successMsg: successMsg, noMessages: !successMsg, categories});
     })
     .catch(err => {
-        res.render('shop/index', {
-          csrfToken: req.csrfToken(),
-          title: 'Bookstore',
-          categories
-        });
+        res.render('shop/index', {title: 'Bookstore', categories});
         console.log(`Something went wrong - ${err}`);
     });
 });
 
 router.get('/search', (req, res) => {
+    const successMsg = req.flash('success')[0];
   const { Book, Publisher, Category, AuthorBook, Author } = models;
   AuthorBook.findAll({
       attributes: ['ISBN'],
@@ -117,25 +109,17 @@ router.get('/search', (req, res) => {
         publisher: Book.Publisher.name,
         category: Book.Category.name
       }));
-      
+
       const bookChunks = [];
       const chunkSize = 4;
       for (let i = 0; i < mappedBooks.length; i += chunkSize) {
         bookChunks.push(mappedBooks.slice(i, i + chunkSize));
       }
-      
-      res.render('shop/index', {
-        csrfToken: req.csrfToken(),
-        title: 'Bookstore',
-        bookChunks,
-        categories
-      });
+
+        res.render('shop/index', {title: 'Bookstore', bookChunks, successMsg: successMsg, noMessages: !successMsg, categories});
     })
     .catch(err => {
-      res.render('shop/index', {
-        csrfToken: req.csrfToken(),
-        title: 'Bookstore',
-        categories
+      res.render('shop/index', {title: 'Bookstore', categories
       });
       console.log(`Something went wrong - ${err}`);
     });
@@ -244,6 +228,7 @@ router.post('/checkout',isLoggedIn, function(req, res, next) {
 
     });
 });
+
 
 function isLoggedIn(req, res, next) {
     if(req.isAuthenticated()) {
