@@ -8,9 +8,9 @@ const Book = require('../database/models').Book;
 const Order = require('../database/models').Order;
 const BookInOrder = require('../database/models').BookInOrder;
 
-//const csrfProtection = csrf();
+const csrfProtection = csrf();
 
-//router.use(csrfProtection);
+router.use(csrfProtection);
 let categories = [];
 
 models.Category
@@ -138,7 +138,7 @@ router.get('/add-to-cart/:id', (req, res) => {
     .catch(err => res.redirect('/'));
 });
 
-router.get('/reduce/:id', (req, res, next) =>{
+router.get('/reduce/:id', (req, res, next) => {
    const productId = req.params.id;
    const cart = new Cart(req.session.cart ? req.session.cart.items : {});
 
@@ -147,7 +147,7 @@ router.get('/reduce/:id', (req, res, next) =>{
    res.redirect('/shopping-cart');
 });
 
-router.get('/remove/:id', (req, res, next) =>{
+router.get('/remove/:id', (req, res, next) => {
     const productId = req.params.id;
     const cart = new Cart(req.session.cart ? req.session.cart.items : {});
 
@@ -170,7 +170,11 @@ router.get('/checkout',isLoggedIn, function (req, res, next) {
     }
     const cart = new Cart(req.session.cart.items);
     const errMsg = req.flash('error')[0];
-    res.render('shop/checkout',{total: cart.totalPrice, errMsg: errMsg, noError: !errMsg});
+    res.render('shop/checkout', {
+      total: cart.totalPrice,
+      csrfToken: req.csrfToken(),
+      errMsg: errMsg,
+      noError: !errMsg});
 });
 
 router.post('/checkout',isLoggedIn, function(req, res, next) {
